@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Brand from '../components/Brand';
 import FormSignin from '../components/FormSignin';
 import Navbar from '../components/Navbar';
-import Cookies from 'js-cookie';
 
 export default function Home() {
   return (

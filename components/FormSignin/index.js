@@ -4,6 +4,7 @@ import TextInput from '../TextInput';
 import { useRouter } from 'next/router';
 import { postData } from '../../utils/fetchData';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 export default function FormSignin() {
   const router = useRouter();
@@ -19,6 +20,16 @@ export default function FormSignin() {
   const handleSubmit = async () => {
     try {
       const res = await postData('api/v1/participants/auth/signin', form);
+
+      toast.success('berhasil signin', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       Cookies.set('token', res.data.token);
       router.push('/');
     } catch (err) {}

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Brand from '../components/Brand';
 import Navbar from '../components/Navbar';
+import FormSignup from '../components/FormSignup';
 
 export default function Home() {
   return (
@@ -30,73 +31,7 @@ export default function Home() {
               </p>
             </div>
             <div className='col-md-6'>
-              <form
-                action=''
-                className='form-login d-flex flex-column mt-4 mt-md-0'
-              >
-                <div className='d-flex flex-column align-items-start'>
-                  <label htmlFor='first_name' className='form-label'>
-                    First Name
-                  </label>
-                  <input
-                    type='text'
-                    placeholder='First name here'
-                    className='form-control'
-                    id='first_name'
-                  />
-                </div>
-
-                <div className='d-flex flex-column align-items-start'>
-                  <label htmlFor='last_name' className='form-label'>
-                    Last Name
-                  </label>
-                  <input
-                    type='text'
-                    placeholder='Last name here'
-                    className='form-control'
-                    id='last_name'
-                  />
-                </div>
-
-                <div className='d-flex flex-column align-items-start'>
-                  <label htmlFor='email_address' className='form-label'>
-                    Email
-                  </label>
-                  <input
-                    type='email'
-                    className='form-control'
-                    id='email_address'
-                    placeholder='semina@bwa.com'
-                  />
-                </div>
-
-                <div className='d-flex flex-column align-items-start'>
-                  <label htmlFor='password' className='form-label'>
-                    Password (6 characters)
-                  </label>
-                  <input
-                    type='password'
-                    className='form-control'
-                    id='password'
-                    placeholder='Type your password'
-                  />
-                </div>
-
-                <div className='d-flex flex-column align-items-start'>
-                  <label htmlFor='role' className='form-label'>
-                    Role
-                  </label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    id='role'
-                    placeholder='ex: Product Designer'
-                  />
-                </div>
-                <div className='d-grid mt-2'>
-                  <button className='btn-green'>Sign Up</button>
-                </div>
-              </form>
+              <FormSignup />
             </div>
           </div>
         </div>
@@ -105,4 +40,21 @@ export default function Home() {
       <Brand className='pt-0 bg-navy' />
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { token } = context.req.cookies;
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

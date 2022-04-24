@@ -12,8 +12,9 @@ import { useRouter } from 'next/router';
 import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
+import Cookies from 'js-cookie';
 
-export default function DetailPage({ detailPage }) {
+export default function DetailPage({ detailPage, id }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,12 @@ export default function DetailPage({ detailPage }) {
 
   const router = useRouter();
   const handleSubmit = () => {
-    router.push('/checkout');
+    const token = Cookies.get('token');
+    if (!token) {
+      return router.push('/signin');
+    } else {
+      router.push(`/checkout/${id}`);
+    }
   };
   return (
     <>
@@ -143,6 +149,6 @@ export async function getServerSideProps(context) {
   const res = req.data;
 
   return {
-    props: { detailPage: res },
+    props: { detailPage: res, id: context.params.id },
   };
 }
